@@ -13,7 +13,6 @@ Get_elpAudioVersion
 ListSave
 ListLoad
 GetTrackerName
-
 HexToColor
 SettingsSave
 SettingsLoad
@@ -167,7 +166,6 @@ FMODGetNumInstances
 FMODSoundIsStreamed
 FMODSoundInstanciate
 FMODSoundIs3d
-FMODErrorStr
 FMODGetLastError
 FMODNormalizeWaveData
 FMODNormalizeSpectrumData
@@ -178,7 +176,6 @@ FMODEncryptFile
 FMODUpdateTakeOverWhileLocked
 FMODUpdateTakeOverDone
 FMODSpectrumSetSnapshotType
-
 FMODSoundAddAsyncStream
 FMODSoundAsyncReady
 FMODInstanceAsyncOK
@@ -262,9 +259,7 @@ VisReset
 HandleResets
 FontDelete
 FreeSurface
-
 ResetFloatText
-
 Color
 GetMusicFromFolderExt
 GetFoldersFromFolder

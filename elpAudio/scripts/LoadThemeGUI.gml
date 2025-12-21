@@ -38,44 +38,44 @@ if ini_read_real('Default','drawVisualiser',1) {
 
 
 mbtn=ButtonLoop
-mbtn.x=ini_read_real(mysec,'butloopx',64)
-mbtn.y=ini_read_real(mysec,'butloopy',64)
+    mbtn.x=ini_read_real(mysec,'butloopx',64)
+    mbtn.y=ini_read_real(mysec,'butloopy',64)
 
 mbtn=ButtonPlay
-mbtn.x=ini_read_real(mysec,'butplayx',64)
-mbtn.y=ini_read_real(mysec,'butplayy',16)
+    mbtn.x=ini_read_real(mysec,'butplayx',64)
+    mbtn.y=ini_read_real(mysec,'butplayy',16)
 
 mbtn=ButtonAddFile
-mbtn.x=ini_read_real(mysec,'butmusaddx',64)
-mbtn.y=ini_read_real(mysec,'butmusaddy',16)
+    mbtn.x=ini_read_real(mysec,'butmusaddx',64)
+    mbtn.y=ini_read_real(mysec,'butmusaddy',16)
 
 mbtn=ButtonVisualiser
-mbtn.x=ini_read_real(mysec,'butchngvisx',64)
-mbtn.y=ini_read_real(mysec,'butchngvisy',16)
+    mbtn.x=ini_read_real(mysec,'butchngvisx',64)
+    mbtn.y=ini_read_real(mysec,'butchngvisy',16)
 
 mbtn=ButtonShuffle
-mbtn.x=ini_read_real(mysec,'butsortx',64)
-mbtn.y=ini_read_real(mysec,'butsorty',16)
+    mbtn.x=ini_read_real(mysec,'butshufflex',288)
+    mbtn.y=ini_read_real(mysec,'butshuffley',48)
 
 mbtn=ButtonAlwaysOnTop
-mbtn.x=ini_read_real(mysec,'butontopx',64)
-mbtn.y=ini_read_real(mysec,'butontopy',16)
+    mbtn.x=ini_read_real(mysec,'butontopx',64)
+    mbtn.y=ini_read_real(mysec,'butontopy',16)
 
 mbtn=ButtonStop
-mbtn.x=ini_read_real(mysec,'butstopx',64)
-mbtn.y=ini_read_real(mysec,'butstopy',16)
+    mbtn.x=ini_read_real(mysec,'butstopx',64)
+    mbtn.y=ini_read_real(mysec,'butstopy',16)
 
 mbtn=ButtonPause
-mbtn.x=ini_read_real(mysec,'butpausex',64)
-mbtn.y=ini_read_real(mysec,'butpausey',16)
+    mbtn.x=ini_read_real(mysec,'butpausex',64)
+    mbtn.y=ini_read_real(mysec,'butpausey',16)
 
 mbtn=ButtonNext
-mbtn.x=ini_read_real(mysec,'butnextx',64)
-mbtn.y=ini_read_real(mysec,'butnexty',16)
+    mbtn.x=ini_read_real(mysec,'butnextx',64)
+    mbtn.y=ini_read_real(mysec,'butnexty',16)
 
 mbtn=ButtonPrev
-mbtn.x=ini_read_real(mysec,'butprevx',64)
-mbtn.y=ini_read_real(mysec,'butprevy',16)
+    mbtn.x=ini_read_real(mysec,'butprevx',64)
+    mbtn.y=ini_read_real(mysec,'butprevy',16)
 
 //float text
     mbtn=FloatText
@@ -123,14 +123,19 @@ mbtn.y=ini_read_real(mysec,'butprevy',16)
 
 //volume slider
     mbtn=VolumeSlider
-    mbtn.x=ini_read_real(mysec,'butvolx',64)
-    mbtn.y=ini_read_real(mysec,'butvoly',16)
+    mbtn.x=ini_read_real(mysec,'volsliderx',64)
+    mbtn.y=ini_read_real(mysec,'volslidery',16)
     mbtn.vertical=ini_read_real('Default','verticalVolumeSlide',0)
 
 //position slider
     mbtn=PosSlider
-    mbtn.x=ini_read_real(mysec,'sliderx',64)
-    mbtn.y=ini_read_real(mysec,'slidery',16)
+    mbtn.x=ini_read_real(mysec,'possliderx',64)
+    mbtn.y=ini_read_real(mysec,'posslidery',16)
+
+//panning slider
+    mbtn=PanSlider
+    mbtn.x=ini_read_real(mysec,'pansliderx',64)
+    mbtn.y=ini_read_real(mysec,'panslidery',16)
 
 //main menu
     MainMenu.x=ini_read_real(mysec,'frontmenux',64)
