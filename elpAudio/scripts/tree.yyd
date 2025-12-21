@@ -286,3 +286,4 @@
 		+HANDLERS
 			|plgListIsLoaded
 		|AddFileAction
+		|ExecuteFile
