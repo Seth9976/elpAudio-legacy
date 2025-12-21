@@ -4,7 +4,7 @@ lib_id=1
 action_id=603
 applies_to=self
 */
-sprite_index=global.__ico_sortb
+sprite_index=global.__ico_shuffle
 image_speed=0
 image_index=global.randomized
 #define Mouse_4
