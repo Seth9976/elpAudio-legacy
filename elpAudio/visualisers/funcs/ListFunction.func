@@ -1,0 +1,32 @@
+__ss=show_menu('Add to favorites|Add to playlist...|Remove from playlist',-1) 
+if __ss=0 {
+	_fname='playlists\favorites.epl' 
+	if !file_exists(_fname) {
+		v=file_text_open_write(_fname) 
+		file_text_write_string(v,'0')
+		file_text_writeln(v)
+		file_text_close(v)
+	} 
+	v=file_text_open_append(_fname) 
+	file_text_write_string(v,string(GetListEntryRaw(they)));
+	file_text_writeln(v);
+	file_text_close(v);
+}
+if __ss=1 {
+	_fname=get_open_filename('Any .epl playlist|*.epl',''); 
+	if _fname=='' n=1 else {
+		v=file_text_open_append(_fname) 
+		file_text_write_string(v,string(GetListEntryRaw(they)));
+		file_text_writeln(v);
+		file_text_close(v);
+	}
+} 
+if __ss=2 {
+	ds_list_delete(global.list,they) 
+	if they==CheckSelect() {
+		global.preloaded=-1 
+		global.curpreloaded=-1 
+		eaPlay(they); 
+	} 
+	else if they<global.current global.current-=1;
+}

@@ -10,8 +10,8 @@ repeat(maxs){
 	xx+w/2+lengthdir_x(spec1*(w/4),dir+angle)+lengthdir_x(spec2*(w/4),dir+angle+90),
 	yy+h/2+lengthdir_y(spec1*(h/4),dir+angle)+lengthdir_y(spec2*(h/4),dir+angle+90),
 	clamp((max(spec1,spec2)-min(spec1,spec2))*5,1,2),
-	MergeColor(global.color1,global.color2,0.5+lengthdir_x(0.25,current_time*0.05+i*0.5)),
-	MergeColor(global.color1,global.color2,0.5+lengthdir_x(0.25,current_time*0.05-65+i*0.5))
+	MergeColor(Color('color1'),Color('color2'),0.5+lengthdir_x(0.25,current_time*0.05+i*0.5)),
+	MergeColor(Color('color1'),Color('color2'),0.5+lengthdir_x(0.25,current_time*0.05-65+i*0.5))
 	);
 	i+=1;
 	angle+=(360/maxs)*(10*1.125);

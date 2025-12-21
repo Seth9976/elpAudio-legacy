@@ -1,12 +1,12 @@
 InitVisVars(x,y,width,height)
 if !variable_local_exists("__wave_vis") __wave_vis=1
 if __wave_vis=1 {
-__wavesurf=surface_create(w,h);
-__surf2=surface_create(w,h);
+	__wavesurf=surface_create(w,h);
+	__surf2=surface_create(w,h);
 
-if surface_exists(__wavesurf) ClearSurface(__wavesurf);
-if surface_exists(__surf2) ClearSurface(__surf2);
-__wave_vis=0;
+	if surface_exists(__wavesurf) ClearSurface(__wavesurf);
+	if surface_exists(__surf2) ClearSurface(__surf2);
+	__wave_vis=0;
 }
 
 if VisReset() {FreeSurface(__wavesurf) FreeSurface(__surf2) __wave_vis=1 exit}
@@ -19,7 +19,7 @@ surface_set_target(__wavesurf);
 draw_surface_ext(__surf2,0,0,1,1,0,c_white,0.2);
 
 GetWaveBuffer(maxw,0,myinst)
-SetVisColorAlpha(global.visfgcol,1)
+SetVisColorAlpha(Color('vis_fg'),1)
 repeat(maxw)
 {
     draw_line((w/maxw)*i,SNAPWAVEENTRY(i,maxw)*h,(w/maxw)*(i+1),SNAPWAVEENTRY(i+1,maxw)*h)
@@ -27,7 +27,7 @@ repeat(maxw)
 }
 i=0;
 GetWaveBuffer(maxw,1,myinst)
-SetVisColorAlpha(global.visfgcol,0.6);
+SetVisColorAlpha(Color('vis_fg'),0.6);
 repeat(maxw)
 {
     draw_line((w/maxw)*i,SNAPWAVEENTRY(i,maxw)*h,(w/maxw)*(i+1),SNAPWAVEENTRY(i+1,maxw)*h)

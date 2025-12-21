@@ -1,0 +1,37 @@
+if _mysong!=global.current or plgListIsLoaded() {
+	/*if fname_path(GetListEntryRaw(_mysong))==fname_path(GetListEntryRaw(global.current)) and plgListIsLoaded()==0 nothing=1 else {*/
+	_mysong=global.current;
+	check=0;
+	/*}*/
+}
+if global.pstate!=EA_NONE {
+	if !check {
+		if global.list_size==0 or plgListIsLoaded() {
+			if sprite_exists(myimg) sprite_delete(myimg); 
+			myimg=sprite_add('visualisers\img\noalbum.png',1,0,0,0,0);
+		} else {
+			__rawentry=GetListEntryRaw(_mysong)
+			myfile=FindFile(fname_path(__rawentry),filename_remove_ext(filename_name(__rawentry))+'.jpg',filename_remove_ext(filename_name(__rawentry))+'.jpeg',filename_remove_ext(filename_name(__rawentry))+'.png','*.jpg','*.png','*.bmp','*.jpeg','*.gif','*.tga');
+			if myfile='' myfile=FindFile(directory_previous(fname_path(__rawentry))+'\',filename_remove_ext(filename_name(__rawentry))+'.jpg',filename_remove_ext(filename_name(__rawentry))+'.jpeg',filename_remove_ext(filename_name(__rawentry))+'.png','*.jpg','*.png','*.bmp','*.jpeg','*.gif','*.tga');
+			if file_exists(myfile) and !noimg {
+				if sprite_exists(myimg) sprite_delete(myimg);
+				myimg=sprite_add(myfile,1,0,0,0,0);
+			}
+			myscale=min(width/sprite_get_width(myimg),height/sprite_get_height(myimg))*0.5;
+			check=1;
+		}
+	}
+}
+
+if mouse_check_button_pressed(mb_right) and point_in_rectangle(mouse_x,mouse_y,xx,yy,xx+w,yy+h) {
+	settings=show_menu('Reload image|Enable/disable album image|Open image in image viewer',-1) 
+	if settings=-1 n=1; 
+	if settings=0 _mysong=-12341234; 
+	if settings=1 {
+		noimg=!noimg 
+		_mysong=-12341234
+	} 
+	if settings=2 execute_shell(myfile,'')}
+draw_set_color(0);
+draw_rectangle(xx,yy,xx+w,yy+h,1);
+draw_set_color(c_white);
