@@ -251,7 +251,6 @@
 		|FMODSoundIsStreamed
 		|FMODSoundInstanciate
 		|FMODSoundIs3d
-		|FMODErrorStr
 		|FMODGetLastError
 		|FMODNormalizeWaveData
 		|FMODNormalizeSpectrumData
