@@ -6,6 +6,7 @@ ini_open(global.__progdir+'settings.ini')
     ini_write_real(mysec,'lastVisualiser',__visualiser)
     ini_write_real(mysec,'ShuffleSongs',global.randomized)
     ini_write_real(mysec,'RepeatSong',__repeats)
+    ini_write_real(mysec,'Panning',round(global.panning)*100)
 ini_close()
 
 if ds_list_size(global.list)>0

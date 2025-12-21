@@ -43,6 +43,7 @@ global.current=0
 global.thesong=''
 global.volume=100
 global.randomized=0
+global.panning=0
 global._loaded_list=0
 global.list_type=0
 global.preloaded=0
@@ -148,6 +149,7 @@ if file_exists(global.__progdir+'settings.ini') {
         __changecaption=        ini_read_real('Caption','changeCaption',1)
         __captionchangespd=     ini_read_real('Caption','captionChangeSpeed',3)*60
         __repeats=              ini_read_real(mysec,'RepeatSong',0)
+        global.panning=         ini_read_real(mysec,'Panning',0)/100
     ini_close()
 } else {
     var ffff;ffff=file_text_open_write('settings.ini')
