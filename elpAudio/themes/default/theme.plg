@@ -2,4 +2,11 @@
 Color('color1',$FFFFFF)
 Color('color2',$454545)
 Color('float_text',c_lime)
+Color('vis_bg',c_black)
+Color('vis_fg',c_white)
+Color('top_menu',$606060)
+Color('caption',c_white)
+Color('float_bg',$101010)
+Color('float_fg',c_white)
+Color('bg',$014426)
 #undef create
