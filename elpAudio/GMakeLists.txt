@@ -1,5 +1,5 @@
 /* set the name of project */
-name='elpAudio-2.5'
+name='elpAudio'
 project_dir='.'
 
 /* will create a build directory with 'name' name */
@@ -9,6 +9,7 @@ directory_create(project_dir+name+'\data\')
 directory_create(project_dir+name+'\plugins\')
 directory_create(project_dir+name+'\playlists\')
 directory_create(project_dir+name+'\visualisers\')
+directory_create(project_dir+name+'\visualisers\funcs\')
 directory_create(project_dir+name+'\themes\')
 include_game('elpAudio.gm82',project_dir+name+'\elpAudio.exe')
 include_file('fmodex.dll',name+'\fmodex.dll')
@@ -31,6 +32,7 @@ include_file('visualisers\fountain.vis',name+'\visualisers\fountain.vis')
 include_file('visualisers\playlist.vis',name+'\visualisers\playlist.vis')
 include_file('visualisers\intmain3k.vis',name+'\visualisers\intmain3k.vis')
 include_file('visualisers\img\noalbum.png',name+'\visualisers\img\noalbum.png')
+include_dir(project_dir+'visualisers\funcs\',project_dir+name+'\visualisers\funcs\')
 file=file_find_first(project_dir+'visualisers\default_*.vis',fa_hidden)
 while file!='' {include_file('visualisers\'+file,name+'\visualisers\'+file) file=file_find_next()}
 file_find_close()
@@ -43,9 +45,9 @@ include_dir(project_dir+'themes\compact\',project_dir+name+'\themes\compact\')
 include_dir(project_dir+'themes\astronaut',project_dir+name+'\themes\astronaut\')
 include_dir(project_dir+'icons\',project_dir+name+'\icons\')
 
-set_include_zip(true,project_dir+name+'.zip')
+/* now winapi is included 4EVA!!!!!!!!!!! */
+/* set_include_zip(true,project_dir+name+'.zip') */
 
-/* now build normal winapi build */
 include_file('windows.dll',name+'\windows.dll')
 
-set_include_zip(true,project_dir+name+'-winapi.zip')
+set_include_zip(true,project_dir+name+'.zip')/* +'-winapi.zip') */
