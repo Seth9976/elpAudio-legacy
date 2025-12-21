@@ -30,7 +30,9 @@ global.__fon_vis=   -1
 global.__fon_cap=   -1
 global.__floatbg=   -1
 global.__floatfg=   -1
-global.__ico_sortb= -1
+global.__ico_shuffle= -1
+global.__ico_panholder=-1
+global.__ico_panslider=-1
 global.__floatw=128
 global.__floath=32
 global.__drawfloattime2=0
@@ -67,9 +69,10 @@ Color('bg',$014426)
 if file_exists(global.themepath) {
     ini_open(global.themepath)
         if ea_version!=ini_read_string(mysec,'RequiredVersion',ea_version)
-        and ini_read_real(mysec,'RequiredVersion',1.6)<1.6 //last version with button changes
+        and ini_read_real(mysec,'RequiredVersion',2.7)<2.7 //last version with button changes
         and !__elp_enable_old_themes
         {
+            ini_close()
             show_message('Sorry, but this theme is not suitable for this elpAudio version. elpAudio will now close.#(You can disable this warning in elpAudio settings.)')
             EndSession()
         }
@@ -77,39 +80,44 @@ if file_exists(global.themepath) {
         if ini_key_exists(mysec,'themeName') {global.themename=ini_read_string(mysec,'themeName','Default')}
         else {ini_close() show_message('That .ini file is not a theme file.') EndSession()}
         //play button
-            global.__ico_play=SpritePull(global.__ico_play,filename_path(argument0)+ini_read_string(mysec,'plbt','butplay.png')               ,2,0,0,0,0)
+            global.__ico_play=SpritePull(global.__ico_play,filename_path(argument0)+ini_read_string(mysec,'btplay','butplay.png')               ,2,0,0,0,0)
         //pause button
-            global.__ico_pause=SpritePull(global.__ico_pause,filename_path(argument0)+ini_read_string(mysec,'psbt','butpause.png')             ,2,0,0,0,0)
+            global.__ico_pause=SpritePull(global.__ico_pause,filename_path(argument0)+ini_read_string(mysec,'btpause','butpause.png')             ,2,0,0,0,0)
         //prev button
-            global.__ico_prev=SpritePull(global.__ico_prev,filename_path(argument0)+ini_read_string(mysec,'prbt','butprev.png')               ,2,0,0,0,0)
+            global.__ico_prev=SpritePull(global.__ico_prev,filename_path(argument0)+ini_read_string(mysec,'btprev','butprev.png')               ,2,0,0,0,0)
         //next button
-            global.__ico_next=SpritePull(global.__ico_next,filename_path(argument0)+ini_read_string(mysec,'nxbt','butnext.png')               ,2,0,0,0,0)
+            global.__ico_next=SpritePull(global.__ico_next,filename_path(argument0)+ini_read_string(mysec,'btnext','butnext.png')               ,2,0,0,0,0)
         //stop button
-            global.__ico_stop=SpritePull(global.__ico_stop,filename_path(argument0)+ini_read_string(mysec,'stbt','butstop.png')               ,2,0,0,0,0)
+            global.__ico_stop=SpritePull(global.__ico_stop,filename_path(argument0)+ini_read_string(mysec,'btstop','butstop.png')               ,2,0,0,0,0)
         //settings button
-            global.__ico_stngs=SpritePull(global.__ico_stngs,filename_path(argument0)+ini_read_string(mysec,'snbt','butstng.png')              ,2,0,0,0,0)
+            global.__ico_stngs=SpritePull(global.__ico_stngs,filename_path(argument0)+ini_read_string(mysec,'btstng','butstng.png')              ,2,0,0,0,0)
         //sort button
-            global.__ico_sortb=SpritePull(global.__ico_sortb,filename_path(argument0)+ini_read_string(mysec,'srbt','butsort.png')              ,3,0,0,0,0)
+            global.__ico_shuffle=SpritePull(global.__ico_shuffle,filename_path(argument0)+ini_read_string(mysec,'btshuffle','butsort.png')       ,3,0,0,0,0)
         //loop button
-            global.__ico_loop=SpritePull(global.__ico_loop,filename_path(argument0)+ini_read_string(mysec,'lpbt','butloop.png')              ,3,0,0,0,0)
+            global.__ico_loop=SpritePull(global.__ico_loop,filename_path(argument0)+ini_read_string(mysec,'btloop','butloop.png')              ,3,0,0,0,0)
         //add music button
-            global.__ico_admus=SpritePull(global.__ico_admus,filename_path(argument0)+ini_read_string(mysec,'ambt','butaddmus.png')            ,2,0,0,0,0)
+            global.__ico_admus=SpritePull(global.__ico_admus,filename_path(argument0)+ini_read_string(mysec,'btmusadd','butaddmus.png')            ,2,0,0,0,0)
         //always on top button
-            global.__ico_alont=SpritePull(global.__ico_alont,filename_path(argument0)+ini_read_string(mysec,'atbt','butalont.png')             ,2,0,0,0,0)
+            global.__ico_alont=SpritePull(global.__ico_alont,filename_path(argument0)+ini_read_string(mysec,'btalontop','butalont.png')             ,2,0,0,0,0)
         //visual button
-            global.__ico_visua=SpritePull(global.__ico_visua,filename_path(argument0)+ini_read_string(mysec,'vibt','butvisual.png')            ,2,0,0,0,0)
+            global.__ico_visua=SpritePull(global.__ico_visua,filename_path(argument0)+ini_read_string(mysec,'btvisual','butvisual.png')            ,2,0,0,0,0)
         //mini gui buttons
-            global.__ico_migui=SpritePull(global.__ico_migui,filename_path(argument0)+ini_read_string(mysec,'mgui','minigui.png')              ,9,0,0,0,0)
+            global.__ico_migui=SpritePull(global.__ico_migui,filename_path(argument0)+ini_read_string(mysec,'minigui','minigui.png')              ,9,0,0,0,0)
         //position slide
-            global.__ico_posslider=SpritePull(global.__ico_posslider,filename_path(argument0)+ini_read_string(mysec,'poss','positionslide.png')        ,2,0,0,0,0)
+            global.__ico_posslider=SpritePull(global.__ico_posslider,filename_path(argument0)+ini_read_string(mysec,'posslider','positionslide.png')        ,2,0,0,0,0)
         //position slider
-            global.__ico_posholder=SpritePull(global.__ico_posholder,filename_path(argument0)+ini_read_string(mysec,'slide','slider.png')             ,1,0,0,0,0)
+            global.__ico_posholder=SpritePull(global.__ico_posholder,filename_path(argument0)+ini_read_string(mysec,'posholder','slider.png')             ,1,0,0,0,0)
             sprite_set_offset(global.__ico_posholder,sprite_get_width(global.__ico_posholder)/2,sprite_get_height(global.__ico_posholder)/2)
         //volume slide
-            global.__ico_volslider=SpritePull(global.__ico_volslider,filename_path(argument0)+ini_read_string(mysec,'vols','volumeslide.png')          ,2,0,0,0,0)
+            global.__ico_volslider=SpritePull(global.__ico_volslider,filename_path(argument0)+ini_read_string(mysec,'volslider','volumeslide.png')          ,2,0,0,0,0)
         //volume holder
-            global.__ico_volholder=SpritePull(global.__ico_volholder,filename_path(argument0)+ini_read_string(mysec,'slide2','volslider.png')             ,1,0,0,0,0)
+            global.__ico_volholder=SpritePull(global.__ico_volholder,filename_path(argument0)+ini_read_string(mysec,'volholder','volslider.png')             ,1,0,0,0,0)
             sprite_set_offset(global.__ico_volholder,sprite_get_width(global.__ico_volholder)/2,sprite_get_height(global.__ico_volholder)/2)
+        //pan slide
+            global.__ico_panslider=SpritePull(global.__ico_panslider,filename_path(argument0)+ini_read_string(mysec,'panslider','volumeslide.png')          ,2,0,0,0,0)
+        //pan holder
+            global.__ico_panholder=SpritePull(global.__ico_panholder,filename_path(argument0)+ini_read_string(mysec,'panholder','volslider.png')             ,1,0,0,0,0)
+            sprite_set_offset(global.__ico_panholder,sprite_get_width(global.__ico_panholder)/2,sprite_get_height(global.__ico_panholder)/2)
 
         global.oldfloat=ini_read_real(mysec,'useOldFloat',0)
 
