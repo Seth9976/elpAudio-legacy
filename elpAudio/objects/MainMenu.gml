@@ -198,15 +198,24 @@ if keyboard_check_pressed(vk_f7) {
     }
 }
 
-if keyboard_check_pressed(vk_f5) and global.pstate!=EA_NONE then
+if keyboard_check_pressed(vk_f5) and global.pstate!=EA_NONE
     MusicStop()
 
-if keyboard_check_pressed(vk_f8) then
+if keyboard_check_pressed(vk_f8)
     MusicNext()
 
-if keyboard_check_pressed(vk_f6) then
+if keyboard_check_pressed(vk_f6)
     MusicPrev()
 
-draw_set_color(c_white)
-if keyboard_check_pressed(vk_f1) then
+if keyboard_check_pressed(vk_f9) {
+    global.panning=clamp(global.panning-0.1,-1,1)
+    FMODInstanceSetPan(global.trackhandle,global.panning)
+}
+
+if keyboard_check_pressed(vk_f10) {
+    global.panning=clamp(global.panning+0.1,-1,1)
+    FMODInstanceSetPan(global.trackhandle,global.panning)
+}
+
+if keyboard_check_pressed(vk_f1)
         show_message(string_ext("Now playing: {0}#Song length: {1}#Frequency: {2}#Song number: {3}/{4}#Volume: {5}%#Monitors: {6}#I made this message when FPS was {7}!#x {8} y {9}",global.trackname,global.formatted_time,string(FMODInstanceGetFrequency(global.trackhandle))+"Hz",global.current+1,global.list_size,global.volume,__monitors,fps,window_get_x(),window_get_y()))
