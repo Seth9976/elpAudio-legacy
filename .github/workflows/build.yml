@@ -14,51 +14,23 @@ jobs:
     runs-on: windows-2022  
   
     steps:  
-      - name: Checkout repository  
-        uses: actions/checkout@v4  
+      - uses: actions/checkout@v4  
   
       - name: Install Game Maker 8.2  
         shell: pwsh  
-        run: |  
-          $installer = "${{ github.workspace }}\Game+Maker+8.2+Setup.exe"  
-          Write-Host "Running installer: $installer"  
-          Start-Process -FilePath $installer -ArgumentList "/S" -Wait  
-          # 等待安装完成并确认可执行文件存在  
-          $gmExe = "$env:APPDATA\GameMaker8.2\GameMaker.exe"  
-          if (-not (Test-Path $gmExe)) {  
-            Write-Error "GameMaker.exe not found at $gmExe after installation"  
-            exit 1  
-          }  
-          Write-Host "Game Maker 8.2 installed successfully at $gmExe"  
+        run: Start-Process -FilePath "${{ github.workspace }}\Game+Maker+8.2+Setup.exe" -ArgumentList "/S" -Wait  
   
-      - name: Build with gmake  
+      - name: Build elpAudio  
         working-directory: elpAudio  
         shell: pwsh  
-        run: |  
-          $gmake = "$env:APPDATA\GameMaker8.2\gmake.exe"  
-          Write-Host "Using gmake: $gmake"  
-          & $gmake GMakeLists.txt  
-          if ($LASTEXITCODE -ne 0) {  
-            Write-Error "gmake build failed with exit code $LASTEXITCODE"  
-            exit 1  
-          }  
+        run: '& "$env:APPDATA\GameMaker8.2\GameMaker.exe" elpAudio.gm82 --build elpAudio.exe'  
   
-      - name: Verify build output  
+      - name: Package release  
         working-directory: elpAudio  
-        shell: pwsh  
-        run: |  
-          if (-not (Test-Path "elpAudio\elpAudio.exe")) {  
-            Write-Error "elpAudio.exe not found - build may have failed"  
-            exit 1  
-          }  
-          if (-not (Test-Path "elpAudio.zip")) {  
-            Write-Error "elpAudio.zip not found - packaging may have failed"  
-            exit 1  
-          }  
-          Write-Host "Build output verified:"  
-          Get-Item "elpAudio.zip" | Select-Object Name, Length  
+        shell: cmd  
+        run: 7z a elpAudio.zip data\ico.ico LICENSE.txt windows.dll music_examples\ themes\astronaut themes\clacon2.ttf themes\sourcesans.ttf data\elpAudioSettings.exe data\vars.txt elpAudio.exe visualisers\default_*.vis visualisers\fire3d.vis visualisers\fountain.vis visualisers\playlist.vis visualisers\intmain3k.vis visualisers\img\noalbum.png lib_audio.dll fmodex.dll README.txt -xr!*.m3u -xr!*.m3u8 -xr!*.zip plugins\README.txt plugins\test.plg plugins\ea_monitors.dll plugins\monitor.plg themes\default themes\light themes\compact themes\readme.txt -xr!themes\*\playlist\  
   
-      - name: Upload build artifact  
+      - name: Upload artifact  
         uses: actions/upload-artifact@v4  
         with:  
           name: elpAudio-${{ github.ref_name }}  
@@ -71,6 +43,4 @@ jobs:
         with:  
           files: elpAudio/elpAudio.zip  
           name: elpAudio ${{ github.ref_name }}  
-          draft: false  
-          prerelease: false  
           generate_release_notes: true
