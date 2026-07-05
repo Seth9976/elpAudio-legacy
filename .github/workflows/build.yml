@@ -1,0 +1,76 @@
+name: Build elpAudio  
+  
+on:  
+  push:  
+    tags:  
+      - 'v*'  
+  workflow_dispatch:  
+  
+permissions:  
+  contents: write  
+  
+jobs:  
+  build:  
+    runs-on: windows-2022  
+  
+    steps:  
+      - name: Checkout repository  
+        uses: actions/checkout@v4  
+  
+      - name: Install Game Maker 8.2  
+        shell: pwsh  
+        run: |  
+          $installer = "${{ github.workspace }}\Game+Maker+8.2+Setup.exe"  
+          Write-Host "Running installer: $installer"  
+          Start-Process -FilePath $installer -ArgumentList "/S" -Wait  
+          # 等待安装完成并确认可执行文件存在  
+          $gmExe = "$env:APPDATA\GameMaker8.2\GameMaker.exe"  
+          if (-not (Test-Path $gmExe)) {  
+            Write-Error "GameMaker.exe not found at $gmExe after installation"  
+            exit 1  
+          }  
+          Write-Host "Game Maker 8.2 installed successfully at $gmExe"  
+  
+      - name: Build with gmake  
+        working-directory: elpAudio  
+        shell: pwsh  
+        run: |  
+          $gmake = "$env:APPDATA\GameMaker8.2\gmake.exe"  
+          Write-Host "Using gmake: $gmake"  
+          & $gmake GMakeLists.txt  
+          if ($LASTEXITCODE -ne 0) {  
+            Write-Error "gmake build failed with exit code $LASTEXITCODE"  
+            exit 1  
+          }  
+  
+      - name: Verify build output  
+        working-directory: elpAudio  
+        shell: pwsh  
+        run: |  
+          if (-not (Test-Path "elpAudio\elpAudio.exe")) {  
+            Write-Error "elpAudio.exe not found - build may have failed"  
+            exit 1  
+          }  
+          if (-not (Test-Path "elpAudio.zip")) {  
+            Write-Error "elpAudio.zip not found - packaging may have failed"  
+            exit 1  
+          }  
+          Write-Host "Build output verified:"  
+          Get-Item "elpAudio.zip" | Select-Object Name, Length  
+  
+      - name: Upload build artifact  
+        uses: actions/upload-artifact@v4  
+        with:  
+          name: elpAudio-${{ github.ref_name }}  
+          path: elpAudio/elpAudio.zip  
+          if-no-files-found: error  
+  
+      - name: Create GitHub Release  
+        if: startsWith(github.ref, 'refs/tags/')  
+        uses: softprops/action-gh-release@v2  
+        with:  
+          files: elpAudio/elpAudio.zip  
+          name: elpAudio ${{ github.ref_name }}  
+          draft: false  
+          prerelease: false  
+          generate_release_notes: true
