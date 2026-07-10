@@ -23,7 +23,7 @@ jobs:
   
       - name: Build GMFMODSimpleGrix (Release|Win32)  
         working-directory: elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject  
-        run: msbuild GMFMODSimpleGrix.sln /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143 /p:WindowsTargetPlatformVersion=10.0 '/p:IncludePath=$(VC_IncludePath);$(WindowsSDK_IncludePath);${{ github.workspace }}\elpAudio\GMFMODSimpleGrix\GMFMODSimpleGrix-master\vsproject\source' /m  
+        run: msbuild GMFMODSimpleGrix.sln /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143 /p:WindowsTargetPlatformVersion=10.0 /m  
   
       - name: Upload DLL artifact  
         uses: actions/upload-artifact@v4  
@@ -36,3 +36,4 @@ jobs:
         uses: softprops/action-gh-release@v2  
         with:  
           files: elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject/Release/lib_audio.dll
+
