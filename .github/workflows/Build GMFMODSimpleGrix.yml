@@ -21,6 +21,9 @@ jobs:
       - name: Setup MSBuild  
         uses: microsoft/setup-msbuild@v2  
   
+      - name: Patch source bug (const char* assigned to bool/float)  
+        run: (Get-Content elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject/source/main_STUDIO.cpp -Raw) -replace 'mi->threed\s*=\s*\(\(const char \*\)wname\);','mi->threed = (bool)threed;' -replace 'mi->streamed\s*=\s*\(\(const char \*\)wname\);','mi->streamed = (float)streamed;' | Set-Content elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject/source/main_STUDIO.cpp  
+  
       - name: Build GMFMODSimpleGrix (Release|Win32)  
         working-directory: elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject  
         run: msbuild GMFMODSimpleGrix.sln /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143 /p:WindowsTargetPlatformVersion=10.0 /m  
@@ -36,4 +39,3 @@ jobs:
         uses: softprops/action-gh-release@v2  
         with:  
           files: elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject/Release/lib_audio.dll
-
