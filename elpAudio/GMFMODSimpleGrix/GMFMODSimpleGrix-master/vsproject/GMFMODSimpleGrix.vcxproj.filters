@@ -18,6 +18,9 @@
     <ClCompile Include="source\main_STUDIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\GetOpenFilename_STUDIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\fmod.h">
