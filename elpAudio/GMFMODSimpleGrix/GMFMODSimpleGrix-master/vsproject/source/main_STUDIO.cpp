@@ -1271,8 +1271,10 @@ export double FMODSoundAdd(const char *soundfile, double threed, double streamed
     if(mi == NULL) {FMODASSERT(FMOD_ERR_MEMORY);}
     mi->maxvolume = 1;
     strcpy(mi->file, (const char *)wname);
-    mi->threed =((const char *)wname);
-    mi->streamed =((const char *)wname);
+    //mi->threed =((const char *)wname);
+    //mi->streamed =((const char *)wname);
+	mi->threed = (bool)threed;
+	mi->streamed = (float)streamed;
 	//all other members set by GMEM_ZEROINIT
 	//MessageBoxA(GetActiveWindow(),"4","",0);
 
@@ -3490,64 +3492,5 @@ export double FMODSetResampler(double resamplemethod)
     return (double)1;
 }
 */
-// ================== 下方为你需要新增的代码 ==========================
-// 全局静态缓冲，这是 GameMaker DLL 返回 string 类型（ty_string）时必须要用的
-// 若不用静态缓冲，DLL 返回内存会立马被清理，导致 GM 获取到乱码
-static char gof_result[MAX_PATH * 4];
 
-export const char* GetOpenFilename(
-	const char* title,
-	const char* dir,
-	const char* fname,
-	const char* mask)
-{
-	gof_result[0] = '\0'; // 初始化结果为空
-
-	wchar_t wtitle[512]     = { 0 };
-	wchar_t wdir[MAX_PATH]  = { 0 };
-	wchar_t wfile[MAX_PATH] = { 0 };
-
-	// 1. GML 输入转换为 C++ 宽字符（修复任何中英文字符乱码）
-	MultiByteToWideChar(CP_ACP, 0, title, -1, wtitle, 512);
-	MultiByteToWideChar(CP_ACP, 0, dir, -1, wdir, MAX_PATH);
-	MultiByteToWideChar(CP_ACP, 0, fname, -1, wfile, MAX_PATH);
-
-	// 2. 最关键的一步：提取 Filter (Mask)。因为传进来的文本已被替换成
-	// "FileType\0*.ext\0\0" ，遇到第一个\0 C语言会认为字符串已结束。
-	// 我们要一直寻址找到连着的两个\0\0 才算真正结束。
-	const char* p = mask;
-	while (*p || *(p + 1)) p++;
-	int maskBytes = (int)(p - mask) + 2; // +2 为了容纳末尾的双 '\0'
-
-	wchar_t* wmask = new wchar_t[maskBytes + 1];
-	memset(wmask, 0, (maskBytes + 1) * sizeof(wchar_t));
-	MultiByteToWideChar(CP_ACP, 0, mask, maskBytes, wmask, maskBytes);
-
-	// 3. 构建 Win32 原生弹窗
-	OPENFILENAMEW ofn;
-	memset(&ofn, 0, sizeof(ofn));
-	ofn.lStructSize = sizeof(OPENFILENAMEW);
-	ofn.hwndOwner   = GetActiveWindow(); // 将文件窗口吸附在游戏窗口之上
-	ofn.lpstrFilter = wmask;
-	ofn.lpstrInitialDir = wdir;
-	ofn.lpstrTitle  = wtitle;
-	ofn.lpstrFile   = wfile;
-	ofn.nMaxFile    = MAX_PATH;
-	// OFN_NOCHANGEDIR 至关重要！如果没有这个标志，选择文件会导致 GameMaker 的工作目录
-	// working_directory 发生偏移，整个游戏的资源系统全盘崩塌。
-	ofn.Flags       = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR; 
-
-	// 4. 调用对话框，若选择了文件则将其结果拷入输出缓冲区，否则原样返回(空)
-	if (GetOpenFileNameW(&ofn)) 
-	{
-		WideCharToMultiByte(CP_ACP, 0, wfile, -1, gof_result, sizeof(gof_result), NULL, NULL);
-	}
-
-	// 清理我们刚申请的临时内存以防止泄漏
-	delete[] wmask;
-
-	// 返还给 GameMaker (对应外部的 ty_string)
-	return gof_result;
-}
-    // ================== 新增代码结束 ==========================
 } /* extern "C" */
