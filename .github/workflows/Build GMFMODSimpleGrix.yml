@@ -2,14 +2,14 @@ name: Build GMFMODSimpleGrix
   
 on:  
   push:  
-    branches: [ main, master,GM82 ]  
+    branches: [ main, master, GM82 ]  
   pull_request:  
-    branches: [ main, master,GM82 ]  
+    branches: [ main, master, GM82 ]  
   workflow_dispatch:  
   
 jobs:  
   windows:  
-    name: windows (Release)  
+    name: Build Native DLL (Release)  
     runs-on: windows-2022  
     permissions:  
       contents: write  
@@ -21,9 +21,7 @@ jobs:
       - name: Setup MSBuild  
         uses: microsoft/setup-msbuild@v2  
   
-      - name: Patch source bug (const char* assigned to bool/float)  
-        run: (Get-Content elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject/source/main_STUDIO.cpp -Raw) -replace 'mi->threed\s*=\s*\(\(const char \*\)wname\);','mi->threed = (bool)threed;' -replace 'mi->streamed\s*=\s*\(\(const char \*\)wname\);','mi->streamed = (float)streamed;' | Set-Content elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject/source/main_STUDIO.cpp  
-  
+      # 我们将不稳定的正则修改删去，一切依靠原生代码文件的健全化。直接呼唤编译器
       - name: Build GMFMODSimpleGrix (Release|Win32)  
         working-directory: elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject  
         run: msbuild GMFMODSimpleGrix.sln /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143 /p:WindowsTargetPlatformVersion=10.0 /m  
