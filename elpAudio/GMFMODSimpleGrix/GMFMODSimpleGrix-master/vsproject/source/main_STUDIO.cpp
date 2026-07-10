@@ -25,9 +25,7 @@ v4.5. Added non-ASCII symbols filenames support. by elpoep
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <windows.h>             // 原本就在这里的代码
-#include <commdlg.h>             // <<< 新增1：打开文件对话框必要的头文件
-#pragma comment(lib, "comdlg32.lib") // <<< 新增2：指示编译器自动链接该对话框的库，不需要改配置
+#include <windows.h>             
 //#include <windowsx.h>
 #include "fmod.h"
 #include "fmod_errors.h"
