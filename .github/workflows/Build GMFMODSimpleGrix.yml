@@ -1,0 +1,38 @@
+name: Build GMFMODSimpleGrix  
+  
+on:  
+  push:  
+    branches: [ main, master,GM82 ]  
+  pull_request:  
+    branches: [ main, master,GM82 ]  
+  workflow_dispatch:  
+  
+jobs:  
+  windows:  
+    name: windows (Release)  
+    runs-on: windows-2022  
+    permissions:  
+      contents: write  
+  
+    steps:  
+      - name: Checkout repository  
+        uses: actions/checkout@v4  
+  
+      - name: Setup MSBuild  
+        uses: microsoft/setup-msbuild@v2  
+  
+      - name: Build GMFMODSimpleGrix (Release|Win32)  
+        working-directory: elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject  
+        run: msbuild GMFMODSimpleGrix.sln /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143 /p:WindowsTargetPlatformVersion=10.0 '/p:IncludePath=$(VC_IncludePath);$(WindowsSDK_IncludePath);${{ github.workspace }}\elpAudio\GMFMODSimpleGrix\GMFMODSimpleGrix-master\vsproject\source' /m  
+  
+      - name: Upload DLL artifact  
+        uses: actions/upload-artifact@v4  
+        with:  
+          name: lib_audio  
+          path: elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject/Release/lib_audio.dll  
+  
+      - name: Create GitHub Release  
+        if: startsWith(github.ref, 'refs/tags/')  
+        uses: softprops/action-gh-release@v2  
+        with:  
+          files: elpAudio/GMFMODSimpleGrix/GMFMODSimpleGrix-master/vsproject/Release/lib_audio.dll
